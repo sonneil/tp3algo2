@@ -18,7 +18,9 @@ class Campus
 		bool esIngreso(Pos);
 		bool ingresoSup(Pos);
 		bool ingresoInf(Pos);
-			
+		Nat distancia(Pos, Pos);
+		Conj<Pos> vecinos();
+		Pos aPosMasCercana(Pos,Conj<Pos>);
 };
 
 Campus::Campus (Nat an, Nat al){
@@ -45,4 +47,54 @@ bool ocupada(Pos p){
 	return this->_grilla[p.X][p.Y];
 };
 
-bool
+bool posValida(Pos p){
+	return (p.X<this->_ancho)&&(p.Y<this->_alto);
+};
+
+bool esIngreso(Pos p){
+	return (p.X==0)||(p.X==(this->_ancho -1));
+};
+
+bool ingresoSup(Pos p){
+	return p.X==0
+}
+
+bool ingresoInf(Pos p){
+	return p.X==this->_ancho -1;
+}
+
+Nat distancia(Pos p1,p2){
+	Nat resX;
+	Nat resY;
+	if(p1.X>p2.X){
+		resX=p1.X-p2.X;
+	}else{
+		resX=p2.X-p1.X;
+	}
+	if(p1.Y>p2.Y){
+		resY=p1.Y-p2.Y;
+	}else{
+		resY=p2.Y-p1.Y;
+	}
+	return resX+resY;
+}
+Conj<Pos> vecinos(Pos p){
+	  Conj<Pos> veci;
+	  Pos cand;
+	  cand.X=p.X-1;
+	  cand.Y=p.Y;
+	  if(this->posValida(cand)) veci.agregarRapido(cand);
+	  cand.X+=2;
+	  if(this->posValida(cand)) veci.agregarRapido(cand);
+	  cand.X-=1;
+	  camd.Y-=1;
+	  if(this->posValida(cand)) veci.agregarRapido(cand);
+	  cand.Y+=2;
+	  if(this->posValida(cand)) veci.agregarRapido(cand);
+	  return veci;
+}
+Pos aPosMasCercana(Pos p, Conj<Pos> posi){
+	Pos cand;
+	Conj<Pos>::Iterador it=posi.CrearIt;
+	return cand;
+}
