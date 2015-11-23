@@ -11,7 +11,14 @@ class Campus
 	public:
 		Campus(Nat, Nat);
 		void agregarObs(Pos);
-	
+		Nat alto();
+		Nat ancho();
+		bool ocupada(Pos);
+		bool posValida(Pos);
+		bool esIngreso(Pos);
+		bool ingresoSup(Pos);
+		bool ingresoInf(Pos);
+			
 };
 
 Campus::Campus (Nat an, Nat al){
@@ -26,3 +33,16 @@ void Campus::agregarObs(Pos obst){
 	this->_grilla[obst.X].Definir(obst.Y, true);
 };
 
+Nat alto(){
+	return this->_alto;
+};
+
+Nat ancho(){
+	return this->_ancho;
+};
+
+bool ocupada(Pos p){
+	return this->_grilla[p.X][p.Y];
+};
+
+bool
