@@ -6,17 +6,17 @@ class Campus
 		Arreglo<Arreglo<bool> > _grilla;
 	public:
 		Campus(Nat, Nat);
-		void agregarObs(posición);
+		void agregarObs(posicion);
 		Nat alto();
 		Nat ancho();
-		bool ocupada(posición);
-		bool posValida(posición);
-		bool esIngreso(posición);
-		bool ingresoSup(posición);
-		bool ingresoInf(posición);
-		Nat distancia(posición, posición);
-		Conj<posición> vecinos();
-		posición aPosMasCercana(posición, const Conj<posición>&);
+		bool ocupada(posicion);
+		bool posValida(posicion);
+		bool esIngreso(posicion);
+		bool ingresoSup(posicion);
+		bool ingresoInf(posicion);
+		Nat distancia(posicion, posicion);
+		Conj<posicion> vecinos();
+		posición aPosMasCercana(posicion, const Conj<posicion>&);
 };
 
 Campus::Campus (Nat an, Nat al){
@@ -27,7 +27,7 @@ Campus::Campus (Nat an, Nat al){
 		this->_grilla.Definir(i,Arreglo<bool>(al));
 		}
 };
-void Campus::agregarObs(posición obst){
+void Campus::agregarObs(posicion obst){
 	this->_grilla[obst.x].Definir(obst.y, true);
 };
 
@@ -39,27 +39,27 @@ Nat ancho(){
 	return this->_ancho;
 };
 
-bool ocupada(posición p){
+bool ocupada(posicion p){
 	return this->_grilla[p.x][p.y];
 };
 
-bool posValida(posición p){
+bool posValida(posicion p){
 	return (p.x<this->_ancho)&&(p.y<this->_alto);
 };
 
-bool esIngreso(posición p){
+bool esIngreso(posicion p){
 	return (p.y==0)||(p.y==(this->_alto -1));
 };
 
-bool ingresoSup(posición p){
+bool ingresoSup(posicion p){
 	return p.y==0
 }
 
-bool ingresoInf(posición p){
+bool ingresoInf(posicion p){
 	return p.y==this->_alto -1;
 }
 
-Nat distancia(posición p1,p2){
+Nat distancia(posicion p1,p2){
 	Nat resX;
 	Nat resY;
 	if(p1.x>p2.x){
@@ -74,9 +74,9 @@ Nat distancia(posición p1,p2){
 	}
 	return resX+resY;
 }
-Conj<posición> vecinos(posición p){
-	  Conj<posición> veci;
-	  posición cand;
+Conj<posicion> vecinos(posicion p){
+	  Conj<posicion> veci;
+	  posicion cand;
 	  cand.x=p.x-1;
 	  cand.y=p.y;
 	  if(this->posValida(cand)) veci.agregarRapido(cand);
@@ -89,8 +89,8 @@ Conj<posición> vecinos(posición p){
 	  if(this->posValida(cand)) veci.agregarRapido(cand);
 	  return veci;
 }
-posición aPosMasCercana(posición p, const Conj<posición>& posi){
-	Conj<posición>::Iterador it=posi.CrearIt();
+posicion aPosMasCercana(posicion p, const Conj<posicion>& posi){
+	Conj<posicion>::Iterador it=posi.CrearIt();
 	posición cand=it.siguiente();
 	while (it.HaySiguiente()){
 		if (this->distancia(cand,p)>this->distancia(it.siguiente(),p){
