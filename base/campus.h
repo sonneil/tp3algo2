@@ -1,22 +1,26 @@
+#include <Tipos.h>
+
+namespace aed2{
+
 class Campus
 {
 	private:
-		Nat _ancho;
-		Nat _alto;
+	     Nat _ancho;
+	     Nat _alto;
 		Arreglo<Arreglo<bool> > _grilla;
 	public:
 		Campus(Nat, Nat);
-		void agregarObs(posicion);
+		void agregarObs(Posicion);
 		Nat alto();
 		Nat ancho();
-		bool ocupada(posicion);
-		bool posValida(posicion);
-		bool esIngreso(posicion);
-		bool ingresoSup(posicion);
-		bool ingresoInf(posicion);
-		Nat distancia(posicion, posicion);
-		Conj<posicion> vecinos();
-		posicion aPosMasCercana(posicion, const Conj<posicion>&);
+		bool ocupada(Posicion);
+		bool posValida(Posicion);
+		bool esIngreso(Posicion);
+		bool ingresoSup(Posicion);
+		bool ingresoInf(Posicion);
+		Nat distancia(Posicion, Posicion);
+		Conj<Posicion> vecinos(Posicion);
+		Posicion aPosMasCercana(Posicion, const Conj<Posicion>&);
 };
 
 Campus::Campus (Nat an, Nat al){
@@ -27,39 +31,39 @@ Campus::Campus (Nat an, Nat al){
 		this->_grilla.Definir(i,Arreglo<bool>(al));
 		}
 };
-void Campus::agregarObs(posicion obst){
+void Campus::agregarObs(Posicion obst){
 	this->_grilla[obst.x].Definir(obst.y, true);
 };
 
-Nat alto(){
+Nat Campus::alto(){
 	return this->_alto;
 };
 
-Nat ancho(){
+Nat Campus::ancho(){
 	return this->_ancho;
 };
 
-bool ocupada(posicion p){
+bool Campus::ocupada(Posicion p){
 	return this->_grilla[p.x][p.y];
 };
 
-bool posValida(posicion p){
+bool Campus::posValida(Posicion p){
 	return (p.x<this->_ancho)&&(p.y<this->_alto);
 };
 
-bool esIngreso(posicion p){
+bool Campus::esIngreso(Posicion p){
 	return (p.y==0)||(p.y==(this->_alto -1));
 };
 
-bool ingresoSup(posicion p){
-	return p.y==0
+bool Campus::ingresoSup(Posicion p){
+	return p.y==0;
 }
 
-bool ingresoInf(posicion p){
+bool Campus::ingresoInf(Posicion p){
 	return p.y==this->_alto -1;
 }
 
-Nat distancia(posicion p1,p2){
+Nat Campus::distancia(Posicion p1, Posicion p2){
 	Nat resX;
 	Nat resY;
 	if(p1.x>p2.x){
@@ -74,68 +78,70 @@ Nat distancia(posicion p1,p2){
 	}
 	return resX+resY;
 }
-Conj<posicion> vecinos(posicion p){
-	  Conj<posicion> veci;
-	  posicion cand;
+Conj<Posicion> Campus::vecinos(Posicion p){
+	  Conj<Posicion> veci;
+	  Posicion cand;
 	  cand.x=p.x-1;
 	  cand.y=p.y;
-	  if(this->posValida(cand)) veci.agregarRapido(cand);
+	  if(this->posValida(cand)) veci.AgregarRapido(cand);
 	  cand.x+=2;
-	  if(this->posValida(cand)) veci.agregarRapido(cand);
+	  if(this->posValida(cand)) veci.AgregarRapido(cand);
 	  cand.x-=1;
-	  camd.y-=1;
-	  if(this->posValida(cand)) veci.agregarRapido(cand);
+	  cand.y-=1;
+	  if(this->posValida(cand)) veci.AgregarRapido(cand);
 	  cand.y+=2;
-	  if(this->posValida(cand)) veci.agregarRapido(cand);
+	  if(this->posValida(cand)) veci.AgregarRapido(cand);
 	  return veci;
 }
-posicion aPosMasCercana(posicion p, const Conj<posicion>& posi){
-	Conj<posicion>::Iterador it=posi.CrearIt();
-	posicion cand=it.siguiente();
+Posicion Campus::aPosMasCercana(Posicion p, const Conj<Posicion>& posi){
+	Conj<Posicion>::Iterador it=posi.CrearIt();
+	Posicion cand=it.Siguiente();// Que haya una pos esta segurado por el pre?
 	while (it.HaySiguiente()){
-		if (this->distancia(cand,p)>this->distancia(it.siguiente(),p){
-			cand=it.siguiente();
+		if (this->distancia(cand,p)>this->distancia(it.Siguiente(),p)){
+			cand=it.Siguiente();
 			while (it.HayAnterior()) it.EliminarAnterior();
 			it.Avanzar();
 		}else{
-			if (this->distancia(cand,p)<this->distancia(it.siguiente(),p){
+			if (this->distancia(cand,p)<this->distancia(it.Siguiente(),p)){
 				it.EliminarSiguiente();
-				cand=it.siguiente();
+				cand=it.Siguiente(); //Como aseguras q E siguiente para asignar?
 			}else it.Avanzar();
-		}
+		} // Si la distancia es = no tiene que avanzar?
 	}
 	it=posi.CrearIt();
-	cand=it.siguiente;
-	posicion ceero;
+	cand=it.Siguiente;
+	Posicion ceero;
 	ceero.x=0;
 	ceero.y=0;
 	while (it.HaySiguiente()){
-		if (this->distancia(ceero,p)>this->distancia(it.siguiente(),ceero){
-			cand=it.siguiente();
+		if (this->distancia(ceero,p)>this->distancia(it.Siguiente(),ceero)){
+			cand=it.Siguiente();
 			while (it.HayAnterior()) it.EliminarAnterior();
 			it.Avanzar();
 		}else{
-			if (this->distancia(ceero,p)<this->distancia(it.siguiente(),ceero){
+			if (this->distancia(ceero,p)<this->distancia(it.Siguiente(),ceero)){
 				it.EliminarSiguiente();
-				cand=it.siguiente();
+				cand=it.Siguiente();
 			}else it.Avanzar();
 		}
 	}
 	it=posi.CrearIt();
-	cand=it.siguiente;
+	cand=it.Siguiente;
 	while (it.HaySiguiente()){
 		it=posi.CrearIt();
-		cand=it.siguiente;
-		if (cand.y<it.siguiente.y){
-			cand=it.siguiente();
+		cand=it.Siguiente;
+		if (cand.y<it.Siguiente().y){
+			cand=it.Siguiente();
 			while (it.HayAnterior()) it.EliminarAnterior();
 			it.Avanzar();
 		}else{
-			if (cand.y>it.siguiente.y){
+			if (cand.y>it.Siguiente().y){
 				it.EliminarSiguiente();
-				cand=it.siguiente();
+				cand=it.Siguiente();
 			}else it.Avanzar();
 		}
 	}
 	return cand;
+}
+
 }
