@@ -49,7 +49,7 @@ class DiccRapido {
 
 		//Operaciones privadas
 		int fHash(int k) const {
-			return (k%this->contenedor.CantClaves());
+			return (k%this->accesoRapido.Longitud());
 		}
 };
 
@@ -70,7 +70,7 @@ DiccRapido<B>::DiccRapido(const Dicc<int,B> diccADefinir) {
 	while (it2.HaySiguiente()) {
 		int c = it2.SiguienteClave();
 		this->accesoRapido[fHash(c)].Definir(c,this->contenedor.Definir(c,it2.SiguienteSignificado()));
-		std::cout << "Definido: " << this->accesoRapido[fHash(it2.SiguienteClave())].Definido(c) << "  Tamanio: " << this->accesoRapido.Longitud() << std::endl;
+		std::cout << "Definido: " << this->accesoRapido[fHash(it2.SiguienteClave())].Significado(c).SiguienteSignificado() << "  Tamanio: " << this->accesoRapido.Longitud() << std::endl;
 		it2.Avanzar();
 	}
 }
@@ -86,10 +86,21 @@ std::string DiccRapido<B>::toString() const {
 	}
 	str << "]";
 	return str.str();
+
+	/*std::stringstream str;
+	for (int i=0;i<this->accesoRapido.Longitud();i++) {
+		typename Dicc< int,typename Dicc<int,B>::Iterador >::const_Iterador it = this->accesoRapido[i].CrearIt();
+		str << "[";
+		while (it.HaySiguiente()) {
+			str << it.SiguienteClave();
+			it.Avanzar();
+		}
+		str << "]" << std::endl;
+	}
+	return str.str();*/
 }
 
 template<typename B>
 B DiccRapido<B>::obtener(int c) {
-
 	return this->accesoRapido[fHash(c)].Significado(c).SiguienteSignificado();
 }
