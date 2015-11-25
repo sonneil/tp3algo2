@@ -16,7 +16,7 @@ class Campus
 		bool ingresoInf(posicion);
 		Nat distancia(posicion, posicion);
 		Conj<posicion> vecinos();
-		posición aPosMasCercana(posicion, const Conj<posicion>&);
+		posicion aPosMasCercana(posicion, const Conj<posicion>&);
 };
 
 Campus::Campus (Nat an, Nat al){
@@ -91,7 +91,7 @@ Conj<posicion> vecinos(posicion p){
 }
 posicion aPosMasCercana(posicion p, const Conj<posicion>& posi){
 	Conj<posicion>::Iterador it=posi.CrearIt();
-	posición cand=it.siguiente();
+	posicion cand=it.siguiente();
 	while (it.HaySiguiente()){
 		if (this->distancia(cand,p)>this->distancia(it.siguiente(),p){
 			cand=it.siguiente();
